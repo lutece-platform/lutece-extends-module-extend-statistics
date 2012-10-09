@@ -14,7 +14,7 @@
     <icon-url>images/admin/skin/plugins/extend/modules/statistics/extend-statistics.png</icon-url>
     <copyright>Copyright 2001-2012 Mairie de Paris</copyright>
     <core-version-dependency>
-        <min-core-version>3.1.6</min-core-version>
+        <min-core-version>4.0.0-SNAPSHOT</min-core-version>
         <max-core-version/>
     </core-version-dependency>
 
