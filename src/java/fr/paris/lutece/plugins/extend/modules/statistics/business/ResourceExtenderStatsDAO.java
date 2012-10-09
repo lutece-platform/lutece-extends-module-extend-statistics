@@ -31,9 +31,9 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.socialhub.modules.statistics.business;
+package fr.paris.lutece.plugins.extend.modules.statistics.business;
 
-import fr.paris.lutece.plugins.socialhub.business.extender.history.ResourceExtenderHistoryFilter;
+import fr.paris.lutece.plugins.extend.business.extender.history.ResourceExtenderHistoryFilter;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.sql.DAOUtil;
@@ -52,8 +52,8 @@ import java.util.List;
  */
 public class ResourceExtenderStatsDAO implements IResourceExtenderStatDAO
 {
-    private static final String SQL_QUERY_SELECT = " SELECT COUNT( id_history ) AS nb_histories, extender_type, id_resource, resource_type FROM socialhub_resource_extender_history ";
-    private static final String SQL_QUERY_SELECT_COUNT = " SELECT COUNT( id_history ) AS nb_histories FROM socialhub_resource_extender_history ";
+    private static final String SQL_QUERY_SELECT = " SELECT COUNT( id_history ) AS nb_histories, extender_type, id_resource, resource_type FROM extend_resource_extender_history ";
+    private static final String SQL_QUERY_SELECT_COUNT = " SELECT COUNT( id_history ) AS nb_histories FROM extend_resource_extender_history ";
 
     /**
      * {@inheritDoc}

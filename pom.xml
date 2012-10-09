@@ -8,10 +8,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.paris.lutece.plugins</groupId>
-	<artifactId>module-socialhub-statistics</artifactId>
+	<artifactId>module-extend-statistics</artifactId>
 	<packaging>lutece-plugin</packaging>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>Lutece Social Hub Statistics module</name>
+	<name>Lutece Extend Statistics module</name>
 
 	<repositories>
 	  <repository>
@@ -34,27 +34,27 @@
  		<dependency>
 	    	<groupId>fr.paris.lutece</groupId>
 	    	<artifactId>lutece-core</artifactId>
-	    	<version>[3.1.6,5.0.0-SNAPSHOT)</version>
+	    	<version>[4.0.0-SNAPSHOT,5.0.0-SNAPSHOT)</version>
 	    	<type>lutece-core</type>
 	  	</dependency>
 	  	
 	  	<dependency>
 	    	<groupId>fr.paris.lutece.plugins</groupId>
-	    	<artifactId>plugin-socialhub</artifactId>
-	    	<version>[0.0.9,5.0.0-SNAPSHOT)</version>
+	    	<artifactId>plugin-extend</artifactId>
+	    	<version>[1.0.0-SNAPSHOT,5.0.0-SNAPSHOT)</version>
 	    	<type>lutece-plugin</type>
 	  	</dependency>
 	</dependencies>
 	
 	<properties>
-		<componentName>socialhub-statistics</componentName>
-		<jiraProjectName>SHSTATS</jiraProjectName>
+		<componentName>extend-statistics</componentName>
+		<jiraProjectName>EXTENDSTAT</jiraProjectName>
 		<jiraComponentId>10850</jiraComponentId>
 	</properties>
     
     <scm>
-        <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/collaboration/module-socialhub-statistics</connection>
-        <developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/collaboration/module-socialhub-statistics</developerConnection>
-        <url>http://dev.lutece.paris.fr/viewvc/lutece/portal/trunk/plugins/collaboration/module-socialhub-statistics</url>
+        <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/extends/module-extend-statistics</connection>
+        <developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/extends/module-extend-statistics</developerConnection>
+        <url>http://dev.lutece.paris.fr/viewvc/lutece/portal/trunk/plugins/extends/module-extend-statistics</url>
     </scm>
 </project>

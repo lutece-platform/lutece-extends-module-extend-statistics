@@ -11,9 +11,9 @@
        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
 	<!-- DAO -->
-	<bean id="socialhub-statistics.resourceExtenderStatDAO" class="fr.paris.lutece.plugins.socialhub.modules.statistics.business.ResourceExtenderStatsDAO" />
+	<bean id="extend-statistics.resourceExtenderStatDAO" class="fr.paris.lutece.plugins.extend.modules.statistics.business.ResourceExtenderStatsDAO" />
 	
 	<!-- Services -->
-	<bean id="socialhub-statistics.resourceExtenderStatService" class="fr.paris.lutece.plugins.socialhub.modules.statistics.service.ResourceExtenderStatService" />
+	<bean id="extend-statistics.resourceExtenderStatService" class="fr.paris.lutece.plugins.extend.modules.statistics.service.ResourceExtenderStatService" />
 		
 </beans>

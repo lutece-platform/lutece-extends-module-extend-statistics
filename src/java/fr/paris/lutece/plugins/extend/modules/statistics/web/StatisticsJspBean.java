@@ -31,16 +31,16 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.socialhub.modules.statistics.web;
+package fr.paris.lutece.plugins.extend.modules.statistics.web;
 
-import fr.paris.lutece.plugins.socialhub.business.extender.history.ResourceExtenderHistoryFilter;
-import fr.paris.lutece.plugins.socialhub.modules.statistics.business.ResourceExtenderStat;
-import fr.paris.lutece.plugins.socialhub.modules.statistics.service.IResourceExtenderStatService;
-import fr.paris.lutece.plugins.socialhub.modules.statistics.service.ResourceExtenderStatService;
-import fr.paris.lutece.plugins.socialhub.service.extender.IResourceExtenderService;
-import fr.paris.lutece.plugins.socialhub.service.extender.ResourceExtenderService;
-import fr.paris.lutece.plugins.socialhub.service.type.ExtendableResourceTypeService;
-import fr.paris.lutece.plugins.socialhub.service.type.IExtendableResourceTypeService;
+import fr.paris.lutece.plugins.extend.business.extender.history.ResourceExtenderHistoryFilter;
+import fr.paris.lutece.plugins.extend.modules.statistics.business.ResourceExtenderStat;
+import fr.paris.lutece.plugins.extend.modules.statistics.service.IResourceExtenderStatService;
+import fr.paris.lutece.plugins.extend.modules.statistics.service.ResourceExtenderStatService;
+import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
+import fr.paris.lutece.plugins.extend.service.extender.ResourceExtenderService;
+import fr.paris.lutece.plugins.extend.service.type.ExtendableResourceTypeService;
+import fr.paris.lutece.plugins.extend.service.type.IExtendableResourceTypeService;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -75,12 +75,12 @@ import javax.servlet.http.HttpServletResponse;
 public class StatisticsJspBean extends PluginAdminPageJspBean
 {
     /** The Constant RIGHT_STATS. */
-    public static final String RIGHT_STATS = "SOCIALHUB_STATISTICS";
+    public static final String RIGHT_STATS = "EXTEND_STATISTICS";
 
     // PROPERTIES
-    private static final String PROPERTY_VIEW_STATS_PAGE_TITLE = "module.socialhub.statistics.view_stats.pageTitle";
-    private static final String PROPERTY_LABEL_ALL = "socialhub.labelAll";
-    private static final String PROPERTY_DEFAULT_LIST_STATS_PER_PAGE = "module.socialhub.statistics.listStats.itemsPerPage";
+    private static final String PROPERTY_VIEW_STATS_PAGE_TITLE = "module.extend.statistics.view_stats.pageTitle";
+    private static final String PROPERTY_LABEL_ALL = "extend.labelAll";
+    private static final String PROPERTY_DEFAULT_LIST_STATS_PER_PAGE = "module.extend.statistics.listStats.itemsPerPage";
 
     // MARKS
     private static final String MARK_LIST_RESOURCE_TYPES = "listResourceTypes";
@@ -99,10 +99,10 @@ public class StatisticsJspBean extends PluginAdminPageJspBean
     private static final String GROUP_BY_ATTRIBUTE = " extender_type, id_resource, resource_type ";
 
     // TEMPLATES
-    private static final String TEMPLATE_VIEW_STATS = "admin/plugins/socialhub/modules/statistics/view_stats.html";
+    private static final String TEMPLATE_VIEW_STATS = "admin/plugins/extend/modules/statistics/view_stats.html";
 
     // JSP
-    private static final String JSP_URL_VIEW_STATS = "jsp/admin/plugins/socialhub/modules/statistics/ViewStats.jsp";
+    private static final String JSP_URL_VIEW_STATS = "jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp";
 
     // SERVICES
     private IExtendableResourceTypeService _resourceTypeService = SpringContextService.getBean( ExtendableResourceTypeService.BEAN_SERVICE );

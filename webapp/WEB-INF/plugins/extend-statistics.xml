@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><plug-in>
+
+    <!-- Plugin Informations -->
+    <name>extend-statistics</name>
+    <class>fr.paris.lutece.plugins.extend.modules.statistics.service.StatisticsPlugin</class>
+    <version>1.0.0</version>
+    <description>module.module.extend.statistics.module.description</description>
+    <provider>module.extend.statistics.module.provider</provider>
+    <documentation/>
+    <installation/>
+    <changes/>
+    <user-guide/>
+    <provider-url>http://lutece.paris.fr</provider-url>
+    <icon-url>images/admin/skin/plugins/extend/modules/statistics/extend-statistics.png</icon-url>
+    <copyright>Copyright 2001-2012 Mairie de Paris</copyright>
+    <core-version-dependency>
+        <min-core-version>3.1.6</min-core-version>
+        <max-core-version/>
+    </core-version-dependency>
+
+    <!-- if the plugin must have a connection pool with parameter : 1 - yes, 0 - no -->
+    <db-pool-required>0</db-pool-required>
+    
+    <!--Administration interface parameters -->
+    <admin-features>
+        <admin-feature>
+            <feature-id>EXTEND_STATS</feature-id>
+            <feature-title>module.extend.statistics.adminFeature.statistics.name</feature-title>
+            <feature-description>module.extend.statistics.adminFeature.statistics.description</feature-description>
+            <feature-level>2</feature-level>
+            <feature-url>jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp</feature-url>
+            <feature-icon-url>images/admin/skin/plugins/extend/modules/statistics/extend-statistics.png</feature-icon-url>
+            <feature-documentation-url>jsp/admin/documentation/AdminDocumentation.jsp?doc=admin-extend-statistics</feature-documentation-url>
+        </admin-feature>
+    </admin-features>
+    
+</plug-in>

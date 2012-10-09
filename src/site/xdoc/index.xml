@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document>
 	<properties>
-		<title>Module Social Hub Statistics</title>
+		<title>Module Extend Statistics</title>
 	</properties>
 	<body>
-		<section name="Module Social Hub Statistics">
+		<section name="Module Extend Statistics">
 			<subsection name="Introduction">
 				<p>
 					This module is used to generate Statistics for social hub resources.

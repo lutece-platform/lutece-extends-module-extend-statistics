@@ -31,12 +31,12 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.socialhub.modules.statistics.service;
+package fr.paris.lutece.plugins.extend.modules.statistics.service;
 
-import fr.paris.lutece.plugins.socialhub.business.extender.history.ResourceExtenderHistoryFilter;
-import fr.paris.lutece.plugins.socialhub.modules.statistics.business.IResourceExtenderStatDAO;
-import fr.paris.lutece.plugins.socialhub.modules.statistics.business.ResourceExtenderStat;
-import fr.paris.lutece.plugins.socialhub.service.SocialHubPlugin;
+import fr.paris.lutece.plugins.extend.business.extender.history.ResourceExtenderHistoryFilter;
+import fr.paris.lutece.plugins.extend.modules.statistics.business.IResourceExtenderStatDAO;
+import fr.paris.lutece.plugins.extend.modules.statistics.business.ResourceExtenderStat;
+import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -53,7 +53,7 @@ import javax.inject.Inject;
 public class ResourceExtenderStatService implements IResourceExtenderStatService
 {
     /** The Constant BEAN_SERVICE. */
-    public static final String BEAN_SERVICE = "socialhub-statistics.resourceExtenderStatService";
+    public static final String BEAN_SERVICE = "extend-statistics.resourceExtenderStatService";
     @Inject
     private IResourceExtenderStatDAO _statDAO;
 
@@ -63,7 +63,7 @@ public class ResourceExtenderStatService implements IResourceExtenderStatService
     @Override
     public List<ResourceExtenderStat> findStats( ResourceExtenderHistoryFilter filter )
     {
-        return _statDAO.loadStats( filter, SocialHubPlugin.getPlugin(  ) );
+        return _statDAO.loadStats( filter, ExtendPlugin.getPlugin(  ) );
     }
 
     /**
@@ -72,7 +72,7 @@ public class ResourceExtenderStatService implements IResourceExtenderStatService
     @Override
     public int getNbStats( ResourceExtenderHistoryFilter filter )
     {
-        return _statDAO.loadCountStats( filter, SocialHubPlugin.getPlugin(  ) );
+        return _statDAO.loadCountStats( filter, ExtendPlugin.getPlugin(  ) );
     }
 
     /**
@@ -91,6 +91,6 @@ public class ResourceExtenderStatService implements IResourceExtenderStatService
         // No ORDER BY
         filterTmp.setSortedAttributeName( StringUtils.EMPTY );
 
-        return _statDAO.loadTotalNumbers( filterTmp, SocialHubPlugin.getPlugin(  ) );
+        return _statDAO.loadTotalNumbers( filterTmp, ExtendPlugin.getPlugin(  ) );
     }
 }

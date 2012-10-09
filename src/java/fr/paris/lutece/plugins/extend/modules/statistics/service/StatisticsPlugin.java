@@ -31,42 +31,33 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.socialhub.modules.statistics.service;
+package fr.paris.lutece.plugins.extend.modules.statistics.service;
 
-import fr.paris.lutece.plugins.socialhub.business.extender.history.ResourceExtenderHistoryFilter;
-import fr.paris.lutece.plugins.socialhub.modules.statistics.business.ResourceExtenderStat;
-
-import java.util.List;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 
 
 /**
  *
- * IResourceExtenderStatService
+ * StatisticsPlugin
  *
  */
-public interface IResourceExtenderStatService
+public class StatisticsPlugin extends PluginDefaultImplementation
 {
-    /**
-     * Load stats.
-     *
-     * @param filter the filter
-     * @return the list
-     */
-    List<ResourceExtenderStat> findStats( ResourceExtenderHistoryFilter filter );
+    /** The Constant PLUGIN_NAME. */
+    public static final String PLUGIN_NAME = "extend-statistics";
+
+    /** The Constant TRANSACTION_MANAGER. */
+    public static final String TRANSACTION_MANAGER = PLUGIN_NAME + ".transactionManager";
 
     /**
-     * Gets the nb stats.
+     * Gets the plugin.
      *
-     * @param filter the filter
-     * @return the nb stats
+     * @return the plugin
      */
-    int getNbStats( ResourceExtenderHistoryFilter filter );
-
-    /**
-     * Gets the total numbers.
-     *
-     * @param filter the filter
-     * @return the total numbers
-     */
-    long getTotalNumbers( ResourceExtenderHistoryFilter filter );
+    public static Plugin getPlugin(  )
+    {
+        return PluginService.getPlugin( PLUGIN_NAME );
+    }
 }

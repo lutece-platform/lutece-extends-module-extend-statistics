@@ -31,9 +31,9 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.socialhub.modules.statistics.business;
+package fr.paris.lutece.plugins.extend.modules.statistics.business;
 
-import fr.paris.lutece.plugins.socialhub.business.extender.ResourceExtenderDTO;
+import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 
 
 /**
