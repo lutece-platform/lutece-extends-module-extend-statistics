@@ -47,7 +47,7 @@
 				<@getDatePicker idField="dateCreationEnd" language="fr" />
 			</div>
 			<div class="span9">
-				<@paginationAdmin paginator=paginator combo=1 />
+				<@paginationAdmin paginator=paginator combo=1 form=0 />
 				<#assign sortSearchAttribute = buildSortSearchAttribute( filter ) />
 				<table class="table table-striped table-condensed">
 				    <tr>
@@ -83,7 +83,7 @@
 					</tr>
 					</#if>
 				</table>
-			<@paginationAdmin paginator=paginator />
+			<@paginationAdmin paginator=paginator form=0 />
 			</div>
 		</div>
 	</fieldset>
