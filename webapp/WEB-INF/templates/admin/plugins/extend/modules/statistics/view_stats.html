@@ -1,6 +1,3 @@
-<script type="text/javascript" src="js/jquery/plugins/ui/datepicker/ui.datepicker.js" ></script>
-<script type="text/javascript" src="js/jquery/plugins/ui/datepicker/ui.datepicker-fr.js" ></script>
-<noscript></noscript>
 <form action="jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp" method="post">
 	<fieldset>
 		<legend>#i18n{module.extend.statistics.view_stats.pageTitle}</legend>
@@ -26,13 +23,15 @@
 				</div>
 				<div class="control-group" >
 					<label class="control-label" for="dateCreationBegin">#i18n{module.extend.statistics.view_stats.labelDate} :</label>
-					<div class="controls">
+					<div class="controls input-prepend">
+						<span class="add-on"><i class="icon-calendar"></i></span>
 						<input type="text" id="dateCreationBegin" name="dateCreationBegin" maxlength="10" value="<#if filter?? && filter.dateCreationBegin??>${filter.dateCreationBegin}</#if>" />
 		    		</div>
 				</div>
 		    	<div class="control-group" >
 		    		<label class="control-label" for="dateCreationEnd">#i18n{module.extend.statistics.view_stats.labelTo}</label>
-		    		<div class="controls">
+		    		<div class="controls input-prepend">
+		    			<span class="add-on"><i class="icon-calendar"></i></span>
 		    			<input type="text" id="dateCreationEnd" name="dateCreationEnd" maxlength="10" value="<#if filter?? && filter.dateCreationEnd??>${filter.dateCreationEnd}</#if>" />
 		    		</div>
 				</div>
@@ -89,3 +88,6 @@
 		</div>
 	</fieldset>
 </form>
+<script src="js/jquery/plugins/ui/jquery-ui-1.8.16.custom.min.js"></script>
+<script src="js/jquery/plugins/ui/ui.datepicker-fr.js"></script>
+<noscript></noscript>
