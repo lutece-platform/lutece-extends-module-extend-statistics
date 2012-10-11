@@ -49,7 +49,7 @@
 	<properties>
 		<componentName>extend-statistics</componentName>
 		<jiraProjectName>EXTENDSTAT</jiraProjectName>
-		<jiraComponentId>10850</jiraComponentId>
+		<jiraComponentId>10853</jiraComponentId>
 	</properties>
     
     <scm>
