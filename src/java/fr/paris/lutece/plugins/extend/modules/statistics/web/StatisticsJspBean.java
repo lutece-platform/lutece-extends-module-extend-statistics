@@ -42,6 +42,7 @@ import fr.paris.lutece.plugins.extend.service.extender.ResourceExtenderService;
 import fr.paris.lutece.plugins.extend.service.type.ExtendableResourceTypeService;
 import fr.paris.lutece.plugins.extend.service.type.IExtendableResourceTypeService;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -58,13 +59,13 @@ import fr.paris.lutece.util.html.IPaginator;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -129,7 +130,7 @@ public class StatisticsJspBean extends PluginAdminPageJspBean
         setPageTitleProperty( PROPERTY_VIEW_STATS_PAGE_TITLE );
 
         // RESOURCE TYPES
-        ReferenceList listResourceTypes = _resourceTypeService.findAllAsRef(  );
+        ReferenceList listResourceTypes = _resourceTypeService.findAllAsRef( AdminUserService.getLocale( request ) );
         listResourceTypes.addItem( StringUtils.EMPTY,
             I18nService.getLocalizedString( PROPERTY_LABEL_ALL, request.getLocale(  ) ) );
 
