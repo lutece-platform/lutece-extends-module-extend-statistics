@@ -4,7 +4,7 @@
     <name>extend-statistics</name>
     <class>fr.paris.lutece.plugins.extend.modules.statistics.service.StatisticsPlugin</class>
     <version>1.0.1</version>
-    <description>module.module.extend.statistics.module.description</description>
+    <description>module.extend.statistics.module.description</description>
     <provider>module.extend.statistics.module.provider</provider>
     <documentation/>
     <installation/>
