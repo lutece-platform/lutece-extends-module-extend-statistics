@@ -3,7 +3,7 @@
     <!-- Plugin Informations -->
     <name>extend-statistics</name>
     <class>fr.paris.lutece.plugins.extend.modules.statistics.service.StatisticsPlugin</class>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <description>module.extend.statistics.module.description</description>
     <provider>module.extend.statistics.module.provider</provider>
     <documentation/>
