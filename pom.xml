@@ -10,7 +10,7 @@
     <groupId>fr.paris.lutece.plugins</groupId>
     <artifactId>module-extend-statistics</artifactId>
     <packaging>lutece-plugin</packaging>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.4</version>
     <name>Lutece Extend Statistics module</name>
 
     <repositories>
@@ -56,7 +56,7 @@
         <connection>scm:git:https://github.com/lutece-platform/lutece-extends-module-extend-statistics.git</connection>
         <developerConnection>scm:git:https://github.com/lutece-platform/lutece-extends-module-extend-statistics.git</developerConnection>
         <url>https://github.com/lutece-platform/lutece-extends-module-extend-statistics.git</url>
-      <tag>HEAD</tag>
+      <tag>lutece-extends-module-extend-statistics-1.0.4</tag>
   </scm>
     
 </project>
