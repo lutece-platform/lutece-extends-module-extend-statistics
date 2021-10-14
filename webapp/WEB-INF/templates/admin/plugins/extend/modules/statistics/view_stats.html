@@ -1,85 +1,78 @@
 <@extendBox extendTitle='#i18n{module.extend.statistics.view_stats.pageTitle}'>
-<@row>
-	<@columns sm=2>
-		<@box color='primary'>
-			<@boxHeader title='#i18n{portal.util.labelSearch}' />
-			<@boxBody>
-				<@tform action='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp'>
-				<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelExtenderType}' labelFor='extenderType'>
-					<@select name="extenderType" default_value=filter.extenderType! items=listExtenderTypes />
-				</@formGroup>
-				<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelIdExtendableResource}' labelFor='idExtendableResource'>
-					<@input name='idExtendableResource' value='${filter.idExtendableResource!}' maxlength=255  />
-				</@formGroup>
-				<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelExtendableResourceType}' labelFor='extendableResourceType'>
-					<@select name='extendableResourceType' default_value=filter.extendableResourceType! items=listResourceTypes />
-				</@formGroup>
-				<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelDate}' labelFor='dateCreationBegin'>
-					<@inputGroup>
-						<#assign inputFilter><#if filter?? && filter.dateCreationBegin??>${filter.dateCreationBegin}</#if></#assign>
-						<@input type='datetime' language=locale name='dateCreationBegin' id='dateCreationBegin' value=inputFilter />
-						<@inputGroupItem type='text'><@icon style='calendar' /></@inputGroupItem>
-					</@inputGroup>
-				</@formGroup>
-				<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelTo}' labelFor='dateCreationEnd'>
-					<@inputGroup>
-						<#assign inputFilter><#if filter?? && filter.dateCreationEnd??>${filter.dateCreationEnd}</#if></#assign>
-						<@input type='datetime' language=locale name='dateCreationEnd' id='dateCreationEnd' value=inputFilter />
-						<@inputGroupItem type='text'><@icon style='calendar' /></@inputGroupItem>
-					</@inputGroup>
-				</@formGroup>
-				<@formGroup rows=2>
-					<@button type='submit' name='search' value='#i18n{portal.util.labelSearch}' title='#i18n{portal.util.labelSearch}' color='primary' buttonIcon='search' />
-					<@button type='submit' name='reset' value='#i18n{portal.util.labelCancel}' title='#i18n{portal.util.labelCancel}' color='default' buttonIcon='undo' />
-				</@formGroup>
-				</@tform>
-			</@boxBody>
-		</@box>
-	</@columns>
-	<@columns sm=9>
-	<@box color='primary'>
-		<@boxBody>
-		<#assign sortSearchAttribute = buildSortSearchAttribute( filter ) />
-		<@table>
-			<@tr>
-				<@th scope="col">
-					#i18n{module.extend.statistics.view_stats.labelExtenderType}
-					<@sort jsp_url="jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp" attribute="extender_type&amp;session=session" />
-				</@th>
-				<@th scope="col">
-					#i18n{module.extend.statistics.view_stats.labelIdExtendableResource}
-					<@sort jsp_url="jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp" attribute="id_resource&amp;session=session" />
-				</@th>
-				<@th scope="col">
-					#i18n{module.extend.statistics.view_stats.labelExtendableResourceType}
-					<@sort jsp_url="jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp" attribute="resource_type&amp;session=session" />
-				</@th>
-				<@th scope="col">
-					#i18n{module.extend.statistics.view_stats.labelNumber}
-					<@sort jsp_url="jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp" attribute="nb_histories&amp;session=session" />
-				</@th>
-			</@tr>
-			<@tableHeadBodySeparator/>
-			<#if listStats?? && listStats?has_content>
-				<#list listStats as stat>
-					<@tr>
-						<@td>${stat.extenderType!}</@td>
-						<@td>${stat.idExtendableResource!}</@td>
-						<@td>${stat.extendableResourceType!}</@td>
-						<@td>${stat.number!}</@td>
-					</@tr>
-				</#list>
-				<tfooter>
+	<@row>
+		<@columns sm=3>
+			<@tform action='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp'>
+				<@fieldSet legend='#i18n{portal.util.labelSearch}'>
+					<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelExtenderType}' labelFor='extenderType'>
+						<@select name='extenderType' default_value=filter.extenderType! items=listExtenderTypes />
+					</@formGroup>
+					<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelIdExtendableResource}' labelFor='idExtendableResource'>
+						<@input name='idExtendableResource' value='${filter.idExtendableResource!}' maxlength=255 />
+					</@formGroup>
+					<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelExtendableResourceType}' labelFor='extendableResourceType'>
+						<@select name='extendableResourceType' default_value=filter.extendableResourceType! items=listResourceTypes />
+					</@formGroup>
+					<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelDate}' labelFor='dateCreationBegin'>
+						<@inputGroup>
+							<#assign inputFilter><#if filter?? && filter.dateCreationBegin??>${filter.dateCreationBegin}</#if></#assign>
+							<@input type='datetime' language=locale name='dateCreationBegin' id='dateCreationBegin' value=inputFilter />
+							<@inputGroupItem type='text'><@icon style='calendar' /></@inputGroupItem>
+						</@inputGroup>
+					</@formGroup>
+					<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelTo}' labelFor='dateCreationEnd'>
+						<@inputGroup>
+							<#assign inputFilter><#if filter?? && filter.dateCreationEnd??>${filter.dateCreationEnd}</#if></#assign>
+							<@input type='datetime' language=locale name='dateCreationEnd' id='dateCreationEnd' value=inputFilter />
+							<@inputGroupItem type='text'><@icon style='calendar' /></@inputGroupItem>
+						</@inputGroup>
+					</@formGroup>
+					<@formGroup rows=2>
+						<@button type='submit' name='search' value='#i18n{portal.util.labelSearch}' title='#i18n{portal.util.labelSearch}' color='primary' buttonIcon='search' />
+						<@button type='submit' name='reset' value='#i18n{portal.util.labelCancel}' title='#i18n{portal.util.labelCancel}' color='default' buttonIcon='undo' />
+					</@formGroup>
+				</@fieldSet>
+			</@tform>
+		</@columns>
+		<@columns sm=9>
+			<#assign sortSearchAttribute = buildSortSearchAttribute( filter ) />
+			<@table>
 				<@tr>
-					<@td colspan=3>#i18n{module.extend.statistics.view_stats.labelTotalNumbers}</@td>
-					<@td>${totalNumbers!}</@td>
+					<@th scope='col'>
+						#i18n{module.extend.statistics.view_stats.labelExtenderType}
+						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp' attribute='extender_type&amp;session=session' />
+					</@th>
+					<@th scope='col'>
+						#i18n{module.extend.statistics.view_stats.labelIdExtendableResource}
+						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp' attribute='id_resource&amp;session=session' />
+					</@th>
+					<@th scope='col'>
+						#i18n{module.extend.statistics.view_stats.labelExtendableResourceType}
+						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp' attribute='resource_type&amp;session=session' />
+					</@th>
+					<@th scope='col'>
+						#i18n{module.extend.statistics.view_stats.labelNumber}
+						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp' attribute='nb_histories&amp;session=session' />
+					</@th>
 				</@tr>
-				</tfooter>
-			</#if>
-		</@table>
-		</@boxBody>
-	</@box>
-	</@columns>
-</@row>
-<@paginationAdmin paginator=paginator combo=1 form=0 />
+				<@tableHeadBodySeparator />
+				<#if listStats?? && listStats?has_content>
+					<#list listStats as stat>
+						<@tr>
+							<@td>${stat.extenderType!}</@td>
+							<@td>${stat.idExtendableResource!}</@td>
+							<@td>${stat.extendableResourceType!}</@td>
+							<@td>${stat.number!}</@td>
+						</@tr>
+					</#list>
+					<tfooter>
+					<@tr>
+						<@td colspan=3>#i18n{module.extend.statistics.view_stats.labelTotalNumbers}</@td>
+						<@td>${totalNumbers!}</@td>
+					</@tr>
+					</tfooter>
+				</#if>
+			</@table>
+		</@columns>
+	</@row>
+	<@paginationAdmin paginator=paginator combo=1 form=0 />
 </@extendBox>
