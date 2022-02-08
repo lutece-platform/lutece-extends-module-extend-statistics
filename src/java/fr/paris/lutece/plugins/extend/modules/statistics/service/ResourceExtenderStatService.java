@@ -38,7 +38,7 @@ import fr.paris.lutece.plugins.extend.modules.statistics.business.IResourceExten
 import fr.paris.lutece.plugins.extend.modules.statistics.business.ResourceExtenderStat;
 import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
