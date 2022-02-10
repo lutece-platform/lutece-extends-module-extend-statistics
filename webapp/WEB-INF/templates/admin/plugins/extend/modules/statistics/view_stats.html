@@ -1,8 +1,10 @@
-<@extendBox extendTitle='#i18n{module.extend.statistics.view_stats.pageTitle}'>
-	<@row>
-		<@columns sm=3>
-			<@tform action='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp'>
-				<@fieldSet legend='#i18n{portal.util.labelSearch}'>
+
+<@box color='primary'>
+	<@boxHeader title='#i18n{module.extend.statistics.view_stats.pageTitle}' skipHeader=true />	
+	<@boxBody>
+	
+			<@tform class='d-flex justify-content-around' action='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp'>
+				
 					<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelExtenderType}' labelFor='extenderType'>
 						<@select name='extenderType' default_value=filter.extenderType! items=listExtenderTypes />
 					</@formGroup>
@@ -26,14 +28,12 @@
 							<@inputGroupItem type='text'><@icon style='calendar' /></@inputGroupItem>
 						</@inputGroup>
 					</@formGroup>
-					<@formGroup rows=2>
-						<@button type='submit' name='search' value='#i18n{portal.util.labelSearch}' title='#i18n{portal.util.labelSearch}' color='primary' buttonIcon='search' />
-						<@button type='submit' name='reset' value='#i18n{portal.util.labelCancel}' title='#i18n{portal.util.labelCancel}' color='default' buttonIcon='undo' />
+					<@formGroup rows=2 class='mt-4 pt-1'>
+						<@button type='submit' name='search' value='#i18n{portal.util.labelSearch}' title='#i18n{portal.util.labelSearch}' size='' color='primary' buttonIcon='search' />
 					</@formGroup>
-				</@fieldSet>
+			
 			</@tform>
-		</@columns>
-		<@columns sm=9>
+		
 			<#assign sortSearchAttribute = buildSortSearchAttribute( filter ) />
 			<@table>
 				<@tr>
@@ -64,15 +64,15 @@
 							<@td>${stat.number!}</@td>
 						</@tr>
 					</#list>
-					<tfooter>
+					<@tableFoot>
 					<@tr>
 						<@td colspan=3>#i18n{module.extend.statistics.view_stats.labelTotalNumbers}</@td>
 						<@td>${totalNumbers!}</@td>
 					</@tr>
-					</tfooter>
+					</@tableFoot>
 				</#if>
 			</@table>
-		</@columns>
-	</@row>
-	<@paginationAdmin paginator=paginator combo=1 form=0 />
-</@extendBox>
+			<@paginationAdmin paginator=paginator combo=1 />
+
+	</@boxBody>
+</@box>
