@@ -36,22 +36,18 @@ package fr.paris.lutece.plugins.extend.modules.statistics.web;
 import fr.paris.lutece.plugins.extend.business.extender.history.ResourceExtenderHistoryFilter;
 import fr.paris.lutece.plugins.extend.modules.statistics.business.ResourceExtenderStat;
 import fr.paris.lutece.plugins.extend.modules.statistics.service.IResourceExtenderStatService;
-import fr.paris.lutece.plugins.extend.modules.statistics.service.ResourceExtenderStatService;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
-import fr.paris.lutece.plugins.extend.service.extender.ResourceExtenderService;
-import fr.paris.lutece.plugins.extend.service.type.ExtendableResourceTypeService;
 import fr.paris.lutece.plugins.extend.service.type.IExtendableResourceTypeService;
-import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.portal.web.constants.Parameters;
-import fr.paris.lutece.portal.web.pluginaction.DefaultPluginActionResult;
-import fr.paris.lutece.portal.web.pluginaction.IPluginActionResult;
 import fr.paris.lutece.portal.web.util.LocalizedDelegatePaginator;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -61,11 +57,10 @@ import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
 
 
 /**
@@ -73,10 +68,26 @@ import javax.servlet.http.HttpServletResponse;
  * StatisticsJspBean
  *
  */
-public class StatisticsJspBean extends PluginAdminPageJspBean
+@Controller(
+    controllerJsp = "ViewStats.jsp",
+    controllerPath = "jsp/admin/plugins/extend/modules/statistics/",
+    right = StatisticsJspBean.RIGHT_STATS
+)
+@SessionScoped
+@Named
+public class StatisticsJspBean extends MVCAdminJspBean
 {
+    private static final long serialVersionUID = 1L;
+
     /** The Constant RIGHT_STATS. */
     public static final String RIGHT_STATS = "EXTEND_STATISTICS";
+
+    // VIEWS
+    private static final String VIEW_STATS = "viewStats";
+
+    // ACTIONS
+    private static final String ACTION_SEARCH = "search";
+    private static final String ACTION_RESET = "reset";
 
     // PROPERTIES
     private static final String PROPERTY_VIEW_STATS_PAGE_TITLE = "module.extend.statistics.view_stats.pageTitle";
@@ -92,23 +103,19 @@ public class StatisticsJspBean extends PluginAdminPageJspBean
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_TOTAL_NUMBERS = "totalNumbers";
 
-    // PARAMETERS
-    private static final String PARAMETER_SESSION = "session";
-    private static final String PARAMETER_RESET = "reset";
-
     // GROUP BY
     private static final String GROUP_BY_ATTRIBUTE = " extender_type, id_resource, resource_type ";
 
     // TEMPLATES
     private static final String TEMPLATE_VIEW_STATS = "admin/plugins/extend/modules/statistics/view_stats.html";
 
-    // JSP
-    private static final String JSP_URL_VIEW_STATS = "jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp";
-
     // SERVICES
-    private IExtendableResourceTypeService _resourceTypeService = SpringContextService.getBean( ExtendableResourceTypeService.BEAN_SERVICE );
-    private IResourceExtenderService _resourceExtenderService = SpringContextService.getBean( ResourceExtenderService.BEAN_SERVICE );
-    private IResourceExtenderStatService _statService = SpringContextService.getBean( ResourceExtenderStatService.BEAN_SERVICE );
+    @Inject
+    private IExtendableResourceTypeService _resourceTypeService;
+    @Inject
+    private IResourceExtenderService _resourceExtenderService;
+    @Inject
+    private IResourceExtenderStatService _statService;
 
     // VARIABLES
     private int _nItemsPerPage;
@@ -117,18 +124,62 @@ public class StatisticsJspBean extends PluginAdminPageJspBean
     private ResourceExtenderHistoryFilter _filter;
 
     /**
-     * Gets the view stats.
+     * Gets the view stats page.
+     *
+     * @param model the model
+     * @param request the request
+     * @return the view stats page
+     */
+    @View( value = VIEW_STATS, defaultView = true )
+    public String getViewStats( Models model, HttpServletRequest request )
+    {
+        if ( _filter == null )
+        {
+            _filter = new ResourceExtenderHistoryFilter(  );
+        }
+
+        return buildStatsPage( model, request );
+    }
+
+    /**
+     * Processes the search filter action.
+     *
+     * @param model the model
+     * @param request the request
+     * @return the view stats page with filtered results
+     */
+    @Action( ACTION_SEARCH )
+    public String doSearch( Models model, HttpServletRequest request )
+    {
+        _filter = new ResourceExtenderHistoryFilter(  );
+        populate( _filter, request );
+
+        return buildStatsPage( model, request );
+    }
+
+    /**
+     * Resets the filter.
      *
      * @param request the request
-     * @param response the response
-     * @return the view stats
-     * @throws AccessDeniedException the access denied exception
+     * @return redirect to the default view
      */
-    public IPluginActionResult getViewStats( HttpServletRequest request, HttpServletResponse response )
-        throws AccessDeniedException
+    @Action( ACTION_RESET )
+    public String doReset( HttpServletRequest request )
     {
-        setPageTitleProperty( PROPERTY_VIEW_STATS_PAGE_TITLE );
+        _filter = new ResourceExtenderHistoryFilter(  );
 
+        return redirectView( request, VIEW_STATS );
+    }
+
+    /**
+     * Builds the stats page with the current filter.
+     *
+     * @param model the model
+     * @param request the request
+     * @return the rendered page
+     */
+    private String buildStatsPage( Models model, HttpServletRequest request )
+    {
         // RESOURCE TYPES
         ReferenceList listResourceTypes = _resourceTypeService.findAllAsRef( AdminUserService.getLocale( request ) );
         listResourceTypes.addItem( StringUtils.EMPTY,
@@ -139,8 +190,7 @@ public class StatisticsJspBean extends PluginAdminPageJspBean
         listExtenderTypes.addItem( StringUtils.EMPTY,
             I18nService.getLocalizedString( PROPERTY_LABEL_ALL, request.getLocale(  ) ) );
 
-        // RESOURCE EXTENDER HISTORY FILTER
-        initFilter( request );
+        // FILTER
         _filter.setGroupByAttributeName( GROUP_BY_ATTRIBUTE );
         _filter.setSortedAttributeName( request );
         _filter.setAscSort( request );
@@ -154,8 +204,6 @@ public class StatisticsJspBean extends PluginAdminPageJspBean
 
         if ( StringUtils.isNotBlank( _strCurrentPageIndex ) && StringUtils.isNumeric( _strCurrentPageIndex ) )
         {
-            // Define the current page index
-            // If the current page index is > ( nCurrentPageIndex - 1 ) * _nItemsPerPage ), then display the first page index
             int nCurrentPageIndex = Integer.parseInt( _strCurrentPageIndex );
 
             if ( ( ( nCurrentPageIndex - 1 ) * _nItemsPerPage ) > nNbStats )
@@ -167,20 +215,18 @@ public class StatisticsJspBean extends PluginAdminPageJspBean
             _filter.setPageIndex( nCurrentPageIndex );
         }
 
-        UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL_VIEW_STATS );
-        url.addParameter( PARAMETER_SESSION, PARAMETER_SESSION );
+        String strURL = getHomeUrl( request );
 
         if ( _filter.containsAttributeName(  ) )
         {
-            url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, _filter.getSortedAttributeName(  ) );
-            url.addParameter( Parameters.SORTED_ASC, Boolean.toString( _filter.isAscSort(  ) ) );
+            strURL += ( "?" + Parameters.SORTED_ATTRIBUTE_NAME + "=" + _filter.getSortedAttributeName(  ) );
+            strURL += ( "&" + Parameters.SORTED_ASC + "=" + _filter.isAscSort(  ) );
         }
 
-        IPaginator<ResourceExtenderStat> paginator = new LocalizedDelegatePaginator<ResourceExtenderStat>( _statService.findStats( 
-                    _filter ), _nItemsPerPage, url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex,
+        IPaginator<ResourceExtenderStat> paginator = new LocalizedDelegatePaginator<ResourceExtenderStat>( _statService.findStats(
+                    _filter ), _nItemsPerPage, strURL, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex,
                 nNbStats, request.getLocale(  ) );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_LIST_RESOURCE_TYPES, listResourceTypes );
         model.put( MARK_LIST_EXTENDER_TYPES, listExtenderTypes );
         model.put( MARK_FILTER, _filter );
@@ -189,30 +235,8 @@ public class StatisticsJspBean extends PluginAdminPageJspBean
         model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( paginator.getItemsPerPage(  ) ) );
         model.put( MARK_TOTAL_NUMBERS, _statService.getTotalNumbers( _filter ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_STATS, request.getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_STATS, getLocale(  ), model.asMap(  ) );
 
-        IPluginActionResult result = new DefaultPluginActionResult(  );
-
-        result.setHtmlContent( getAdminPage( template.getHtml(  ) ) );
-
-        return result;
-    }
-
-    /**
-     * Inits the filter.
-     *
-     * @param request the request
-     */
-    private void initFilter( HttpServletRequest request )
-    {
-        if ( StringUtils.isNotBlank( request.getParameter( PARAMETER_RESET ) ) )
-        {
-            _filter = new ResourceExtenderHistoryFilter(  );
-        }
-        else if ( StringUtils.isBlank( request.getParameter( PARAMETER_SESSION ) ) || ( _filter == null ) )
-        {
-            _filter = new ResourceExtenderHistoryFilter(  );
-            populate( _filter, request );
-        }
+        return getAdminPage( template.getHtml(  ) );
     }
 }

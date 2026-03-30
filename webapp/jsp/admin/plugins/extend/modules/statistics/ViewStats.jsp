@@ -1,23 +1,8 @@
-<%@page import="fr.paris.lutece.portal.web.pluginaction.IPluginActionResult"%>
+<%@ page errorPage="../../../../ErrorPage.jsp" %>
+${ pageContext.setAttribute( 'strContent', statisticsJspBean.processController( pageContext.request, pageContext.response ) ) }
 
-<jsp:useBean id="extendStatistics" scope="session" class="fr.paris.lutece.plugins.extend.modules.statistics.web.StatisticsJspBean" />
+<jsp:include page="../../../../AdminHeader.jsp" />
 
-<% 
-	extendStatistics.init( request, extendStatistics.RIGHT_STATS );
-	IPluginActionResult result = extendStatistics.getViewStats( request, response );
-	if ( result.getRedirect(  ) != null )
-	{
-		response.sendRedirect( result.getRedirect(  ) );
-	}
-	else if ( result.getHtmlContent(  ) != null )
-	{
-%>
-		<%@ page errorPage="../../../../ErrorPage.jsp" %>
-		<jsp:include page="../../../../AdminHeader.jsp" />
+${ pageContext.getAttribute( 'strContent' ) }
 
-		<%= result.getHtmlContent(  ) %>
-
-		<%@ include file="../../../../AdminFooter.jsp" %>
-<%
-	}
-%>
+<%@ include file="../../../../AdminFooter.jsp" %>

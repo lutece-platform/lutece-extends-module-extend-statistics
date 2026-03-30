@@ -35,11 +35,9 @@ package fr.paris.lutece.plugins.extend.modules.statistics.business;
 
 import fr.paris.lutece.plugins.extend.business.extender.history.ResourceExtenderHistoryFilter;
 import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.sql.DAOUtil;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +48,13 @@ import java.util.List;
  * ResourceExtenderStatsDAO
  *
  */
+@ApplicationScoped
 public class ResourceExtenderStatsDAO implements IResourceExtenderStatDAO
 {
     private static final String SQL_QUERY_SELECT = " SELECT COUNT( id_history ) AS nb_histories, extender_type, id_resource, resource_type FROM extend_resource_extender_history ";
-    private static final String SQL_QUERY_SELECT_COUNT = " SELECT COUNT( id_history ) AS nb_histories FROM extend_resource_extender_history ";
+    private static final String SQL_QUERY_SELECT_TOTAL = " SELECT COUNT( id_history ) AS nb_histories FROM extend_resource_extender_history ";
+    private static final String SQL_QUERY_COUNT_WRAPPER_PREFIX = " SELECT COUNT(*) FROM ( ";
+    private static final String SQL_QUERY_COUNT_WRAPPER_SUFFIX = " ) sub ";
 
     /**
      * {@inheritDoc}
@@ -61,24 +62,25 @@ public class ResourceExtenderStatsDAO implements IResourceExtenderStatDAO
     @Override
     public List<ResourceExtenderStat> loadStats( ResourceExtenderHistoryFilter filter, Plugin plugin )
     {
-        List<ResourceExtenderStat> listStats = new ArrayList<ResourceExtenderStat>(  );
-        DAOUtil daoUtil = new DAOUtil( filter.buildSQLQuery( SQL_QUERY_SELECT ), plugin );
-        filter.setFilterValues( daoUtil );
-        daoUtil.executeQuery(  );
+        List<ResourceExtenderStat> listStats = new ArrayList<>(  );
 
-        while ( daoUtil.next(  ) )
+        try ( DAOUtil daoUtil = new DAOUtil( filter.buildSQLQuery( SQL_QUERY_SELECT ), plugin ) )
         {
-            int nIndex = 1;
-            ResourceExtenderStat stat = new ResourceExtenderStat(  );
-            stat.setNumber( daoUtil.getInt( nIndex++ ) );
-            stat.setExtenderType( daoUtil.getString( nIndex++ ) );
-            stat.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
-            stat.setExtendableResourceType( daoUtil.getString( nIndex ) );
+            filter.setFilterValues( daoUtil );
+            daoUtil.executeQuery(  );
 
-            listStats.add( stat );
+            while ( daoUtil.next(  ) )
+            {
+                int nIndex = 1;
+                ResourceExtenderStat stat = new ResourceExtenderStat(  );
+                stat.setNumber( daoUtil.getInt( nIndex++ ) );
+                stat.setExtenderType( daoUtil.getString( nIndex++ ) );
+                stat.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
+                stat.setExtendableResourceType( daoUtil.getString( nIndex ) );
+
+                listStats.add( stat );
+            }
         }
-
-        daoUtil.free(  );
 
         return listStats;
     }
@@ -90,25 +92,18 @@ public class ResourceExtenderStatsDAO implements IResourceExtenderStatDAO
     public int loadCountStats( ResourceExtenderHistoryFilter filter, Plugin plugin )
     {
         int nNbStats = 0;
-        DAOUtil daoUtil = new DAOUtil( filter.buildSQLQuery( SQL_QUERY_SELECT ), plugin );
-        filter.setFilterValues( daoUtil );
-        daoUtil.executeQuery(  );
+        String strInnerQuery = filter.buildSQLQuery( SQL_QUERY_SELECT );
 
-        ResultSet rs = daoUtil.getResultSet(  );
-
-        if ( rs != null )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_COUNT_WRAPPER_PREFIX + strInnerQuery + SQL_QUERY_COUNT_WRAPPER_SUFFIX, plugin ) )
         {
-            try
+            filter.setFilterValues( daoUtil );
+            daoUtil.executeQuery(  );
+
+            if ( daoUtil.next(  ) )
             {
-                nNbStats = rs.last(  ) ? rs.getRow(  ) : 0;
-            }
-            catch ( SQLException e )
-            {
-                AppLogService.error( e.getMessage(  ), e );
+                nNbStats = daoUtil.getInt( 1 );
             }
         }
-
-        daoUtil.free(  );
 
         return nNbStats;
     }
@@ -121,16 +116,16 @@ public class ResourceExtenderStatsDAO implements IResourceExtenderStatDAO
     {
         long lNb = 0;
 
-        DAOUtil daoUtil = new DAOUtil( filter.buildSQLQuery( SQL_QUERY_SELECT_COUNT ), plugin );
-        filter.setFilterValues( daoUtil );
-        daoUtil.executeQuery(  );
-
-        if ( daoUtil.next(  ) )
+        try ( DAOUtil daoUtil = new DAOUtil( filter.buildSQLQuery( SQL_QUERY_SELECT_TOTAL ), plugin ) )
         {
-            lNb = daoUtil.getLong( 1 );
-        }
+            filter.setFilterValues( daoUtil );
+            daoUtil.executeQuery(  );
 
-        daoUtil.free(  );
+            if ( daoUtil.next(  ) )
+            {
+                lNb = daoUtil.getLong( 1 );
+            }
+        }
 
         return lNb;
     }

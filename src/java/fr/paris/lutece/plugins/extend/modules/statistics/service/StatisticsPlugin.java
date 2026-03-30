@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 
-
 /**
  *
  * StatisticsPlugin
@@ -48,8 +47,7 @@ public class StatisticsPlugin extends PluginDefaultImplementation
     /** The Constant PLUGIN_NAME. */
     public static final String PLUGIN_NAME = "extend-statistics";
 
-    /** The Constant TRANSACTION_MANAGER. */
-    public static final String TRANSACTION_MANAGER = PLUGIN_NAME + ".transactionManager";
+    // public static final String TRANSACTION_MANAGER = PLUGIN_NAME + ".transactionManager";
 
     /**
      * Gets the plugin.
