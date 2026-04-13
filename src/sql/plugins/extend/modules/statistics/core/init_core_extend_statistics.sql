@@ -1,3 +1,6 @@
+-- liquibase formatted sql
+-- changeset extend-statistics:init_core_extend_statistics
+
 --
 -- Init  table core_admin_right
 --

@@ -3,8 +3,9 @@
 	<@boxHeader title='#i18n{module.extend.statistics.view_stats.pageTitle}' skipHeader=true />	
 	<@boxBody>
 	
-			<@tform class='d-flex justify-content-around' action='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp'>
-				
+			<@tform class='d-flex justify-content-around' action='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp' method='post'>
+				<input type="hidden" name="action" value="search" />
+
 					<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelExtenderType}' labelFor='extenderType'>
 						<@select name='extenderType' default_value=filter.extenderType! items=listExtenderTypes />
 					</@formGroup>
@@ -29,9 +30,9 @@
 						</@inputGroup>
 					</@formGroup>
 					<@formGroup rows=2 class='mt-4 pt-1'>
-						<@button type='submit' name='search' value='#i18n{portal.util.labelSearch}' title='#i18n{portal.util.labelSearch}' size='' color='primary' buttonIcon='search' />
+						<@button type='submit' value='#i18n{portal.util.labelSearch}' title='#i18n{portal.util.labelSearch}' size='' color='primary' buttonIcon='search' />
 					</@formGroup>
-			
+
 			</@tform>
 		
 			<#assign sortSearchAttribute = buildSortSearchAttribute( filter ) />
@@ -39,19 +40,19 @@
 				<@tr>
 					<@th scope='col'>
 						#i18n{module.extend.statistics.view_stats.labelExtenderType}
-						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp' attribute='extender_type&amp;session=session' />
+						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp' attribute='extender_type&amp;view=viewStats' />
 					</@th>
 					<@th scope='col'>
 						#i18n{module.extend.statistics.view_stats.labelIdExtendableResource}
-						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp' attribute='id_resource&amp;session=session' />
+						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp' attribute='id_resource&amp;view=viewStats' />
 					</@th>
 					<@th scope='col'>
 						#i18n{module.extend.statistics.view_stats.labelExtendableResourceType}
-						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp' attribute='resource_type&amp;session=session' />
+						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp' attribute='resource_type&amp;view=viewStats' />
 					</@th>
 					<@th scope='col'>
 						#i18n{module.extend.statistics.view_stats.labelNumber}
-						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp' attribute='nb_histories&amp;session=session' />
+						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp' attribute='nb_histories&amp;view=viewStats' />
 					</@th>
 				</@tr>
 				<@tableHeadBodySeparator />

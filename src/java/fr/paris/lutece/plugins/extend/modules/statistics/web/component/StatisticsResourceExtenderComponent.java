@@ -31,67 +31,64 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.extend.modules.statistics.service;
+package fr.paris.lutece.plugins.extend.modules.statistics.web.component;
 
-import fr.paris.lutece.plugins.extend.business.extender.history.ResourceExtenderHistoryFilter;
-import fr.paris.lutece.plugins.extend.modules.statistics.business.IResourceExtenderStatDAO;
-import fr.paris.lutece.plugins.extend.modules.statistics.business.ResourceExtenderStat;
-import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
+import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
+import fr.paris.lutece.plugins.extend.service.extender.IResourceExtender;
+import fr.paris.lutece.plugins.extend.web.component.NoConfigResourceExtenderComponent;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Locale;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-
-import java.util.List;
-
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
- *
- * ResourceExtenderStatService
- *
+ * StatisticsResourceExtenderComponent
  */
 @ApplicationScoped
-public class ResourceExtenderStatService implements IResourceExtenderStatService
+public class StatisticsResourceExtenderComponent extends NoConfigResourceExtenderComponent
 {
-    // public static final String BEAN_SERVICE = "extend-statistics.resourceExtenderStatService";
     @Inject
-    private IResourceExtenderStatDAO _statDAO;
+    @Named( "extend-statistics.statisticsResourceExtender" )
+    private IResourceExtender _resourceExtender;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<ResourceExtenderStat> findStats( ResourceExtenderHistoryFilter filter )
+    public IResourceExtender getResourceExtender( )
     {
-        return _statDAO.loadStats( filter, ExtendPlugin.getPlugin(  ) );
+        return _resourceExtender;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int getNbStats( ResourceExtenderHistoryFilter filter )
+    public void buildXmlAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters, StringBuffer strXml )
     {
-        return _statDAO.loadCountStats( filter, ExtendPlugin.getPlugin(  ) );
+        // Nothing
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public long getTotalNumbers( ResourceExtenderHistoryFilter filter )
+    public String getPageAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters, HttpServletRequest request )
     {
-        ResourceExtenderHistoryFilter filterTmp = filter;
+        return StringUtils.EMPTY;
+    }
 
-        // No GROUP BY
-        filterTmp.setGroupByAttributeName( StringUtils.EMPTY );
-        // No LIMIT OFFSET
-        filterTmp.setItemsPerPage( ResourceExtenderHistoryFilter.ALL );
-        filterTmp.setPageIndex( ResourceExtenderHistoryFilter.ALL );
-        // No ORDER BY
-        filterTmp.setSortedAttributeName( StringUtils.EMPTY );
-
-        return _statDAO.loadTotalNumbers( filterTmp, ExtendPlugin.getPlugin(  ) );
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getInfoHtml( ResourceExtenderDTO resourceExtender, Locale locale, HttpServletRequest request )
+    {
+        return StringUtils.EMPTY;
     }
 }
