@@ -1,6 +1,6 @@
 -- liquibase formatted sql
--- changeset extend-statistics:init_core_extend_statistics
-
+-- changeset extend-statistics:init_core_extend_statistics.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 --
 -- Init  table core_admin_right
 --
