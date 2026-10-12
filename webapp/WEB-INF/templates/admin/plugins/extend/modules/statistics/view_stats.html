@@ -1,41 +1,55 @@
-
-<@box color='primary'>
-	<@boxHeader title='#i18n{module.extend.statistics.view_stats.pageTitle}' skipHeader=true />	
+<@pageContainer>
+	<@pageColumn>
+		<@pageHeader title='#i18n{module.extend.statistics.view_stats.pageTitle}' />
+<@box>
 	<@boxBody>
 	
-			<@tform class='d-flex justify-content-around' action='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp' method='post'>
-				<input type="hidden" name="action" value="search" />
-
-					<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelExtenderType}' labelFor='extenderType'>
-						<@select name='extenderType' default_value=filter.extenderType! items=listExtenderTypes />
-					</@formGroup>
-					<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelIdExtendableResource}' labelFor='idExtendableResource'>
-						<@input name='idExtendableResource' value='${filter.idExtendableResource!}' maxlength=255 />
-					</@formGroup>
-					<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelExtendableResourceType}' labelFor='extendableResourceType'>
-						<@select name='extendableResourceType' default_value=filter.extendableResourceType! items=listResourceTypes />
-					</@formGroup>
-					<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelDate}' labelFor='dateCreationBegin'>
-						<@inputGroup>
-							<#assign inputFilter><#if filter?? && filter.dateCreationBegin??>${filter.dateCreationBegin}</#if></#assign>
-							<@input type='datetime' language=locale name='dateCreationBegin' id='dateCreationBegin' value=inputFilter />
-							<@inputGroupItem type='text'><@icon style='calendar' /></@inputGroupItem>
-						</@inputGroup>
-					</@formGroup>
-					<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelTo}' labelFor='dateCreationEnd'>
-						<@inputGroup>
-							<#assign inputFilter><#if filter?? && filter.dateCreationEnd??>${filter.dateCreationEnd}</#if></#assign>
-							<@input type='datetime' language=locale name='dateCreationEnd' id='dateCreationEnd' value=inputFilter />
-							<@inputGroupItem type='text'><@icon style='calendar' /></@inputGroupItem>
-						</@inputGroup>
-					</@formGroup>
-					<@formGroup rows=2 class='mt-4 pt-1'>
-						<@button type='submit' value='#i18n{portal.util.labelSearch}' title='#i18n{portal.util.labelSearch}' size='' color='primary' buttonIcon='search' />
-					</@formGroup>
-
+			<@tform class='mb-3' action='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp' method='post'>
+				<@input type='hidden' name='action' value='search' />
+				<@row>
+					<@columns md=6>
+						<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelExtenderType}' labelFor='extenderType'>
+							<@select name='extenderType' default_value=filter.extenderType! items=listExtenderTypes />
+						</@formGroup>
+					</@columns>
+					<@columns md=6>
+						<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelExtendableResourceType}' labelFor='extendableResourceType'>
+							<@select name='extendableResourceType' default_value=filter.extendableResourceType! items=listResourceTypes />
+						</@formGroup>
+					</@columns>
+				</@row>
+				<@row>
+					<@columns md=6>
+						<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelIdExtendableResource}' labelFor='idExtendableResource'>
+							<@input name='idExtendableResource' value='${filter.idExtendableResource!}' maxlength=255 />
+						</@formGroup>
+					</@columns>
+				</@row>
+				<@row>
+					<@columns md=6>
+						<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelDate}' labelFor='dateCreationBegin'>
+							<@inputGroup>
+								<@input type='date' language=locale name='dateCreationBegin' id='dateCreationBegin' defaultDate=dateCreationBegin!'' />
+								<@inputGroupItem type='text'><@icon style='calendar' /></@inputGroupItem>
+							</@inputGroup>
+						</@formGroup>
+					</@columns>
+					<@columns md=6>
+						<@formGroup rows=2 labelKey='#i18n{module.extend.statistics.view_stats.labelTo}' labelFor='dateCreationEnd'>
+							<@inputGroup>
+								<@input type='date' language=locale name='dateCreationEnd' id='dateCreationEnd' defaultDate=dateCreationEnd!'' />
+								<@inputGroupItem type='text'><@icon style='calendar' /></@inputGroupItem>
+							</@inputGroup>
+						</@formGroup>
+					</@columns>
+				</@row>
+				<@button type='submit' value='#i18n{portal.util.labelSearch}' title='#i18n{portal.util.labelSearch}' size='' color='primary' buttonIcon='search' />
 			</@tform>
 		
 			<#assign sortSearchAttribute = buildSortSearchAttribute( filter ) />
+			<#if listStats?has_content>
+			<#assign extenderTypeLabels = {} />
+			<#list listExtenderTypes as item><#assign extenderTypeLabels = extenderTypeLabels + { item.code : item.name } /></#list>
 			<@table>
 				<@tr>
 					<@th scope='col'>
@@ -56,24 +70,27 @@
 					</@th>
 				</@tr>
 				<@tableHeadBodySeparator />
-				<#if listStats?? && listStats?has_content>
-					<#list listStats as stat>
-						<@tr>
-							<@td>${stat.extenderType!}</@td>
-							<@td>${stat.idExtendableResource!}</@td>
-							<@td>${stat.extendableResourceType!}</@td>
-							<@td>${stat.number!}</@td>
-						</@tr>
-					</#list>
-					<@tableFoot>
+				<#list listStats as stat>
 					<@tr>
-						<@td colspan=3>#i18n{module.extend.statistics.view_stats.labelTotalNumbers}</@td>
-						<@td>${totalNumbers!}</@td>
+						<@td>${extenderTypeLabels[stat.extenderType!]!stat.extenderType!}</@td>
+						<@td>${stat.idExtendableResource!}</@td>
+						<@td><#if resourceTypeLabels[stat.extendableResourceType!]??>${resourceTypeLabels[stat.extendableResourceType]}<#else><span class="text-secondary">#i18n{module.extend.statistics.view_stats.labelUnregisteredType} (${stat.extendableResourceType!})</span></#if></@td>
+						<@td>${stat.number!}</@td>
 					</@tr>
-					</@tableFoot>
-				</#if>
+				</#list>
+				<@tableFoot>
+				<@tr>
+					<@td colspan=3>#i18n{module.extend.statistics.view_stats.labelTotalNumbers}</@td>
+					<@td>${totalNumbers!}</@td>
+				</@tr>
+				</@tableFoot>
 			</@table>
 			<@paginationAdmin paginator=paginator combo=1 />
+			<#else>
+			<@empty title='#i18n{module.extend.statistics.view_stats.noData}' subtitle=' ' />
+			</#if>
 
 	</@boxBody>
 </@box>
+	</@pageColumn>
+</@pageContainer>

@@ -3,7 +3,7 @@
     <!-- Plugin Informations -->
     <name>extend-statistics</name>
     <class>fr.paris.lutece.plugins.extend.modules.statistics.service.StatisticsPlugin</class>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>2.0.1-SNAPSHOT</version>
     <description>module.extend.statistics.module.description</description>
     <provider>module.extend.statistics.module.provider</provider>
     <documentation/>
@@ -29,7 +29,8 @@
             <feature-description>module.extend.statistics.adminFeature.statistics.description</feature-description>
             <feature-level>2</feature-level>
             <feature-url>jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp</feature-url>
-            <feature-icon-url>images/admin/skin/plugins/extend/modules/statistics/extend-statistics.png</feature-icon-url>
+            <icon-url>ti ti-chart-bar</icon-url>
+            <feature-group>CONTENT</feature-group>
             <feature-documentation-url>jsp/admin/documentation/AdminDocumentation.jsp?doc=admin-extend-statistics</feature-documentation-url>
         </admin-feature>
     </admin-features>
