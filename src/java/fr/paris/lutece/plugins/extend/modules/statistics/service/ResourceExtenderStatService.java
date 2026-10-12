@@ -38,8 +38,6 @@ import fr.paris.lutece.plugins.extend.modules.statistics.business.IResourceExten
 import fr.paris.lutece.plugins.extend.modules.statistics.business.ResourceExtenderStat;
 import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 
-import org.apache.commons.lang3.StringUtils;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -73,7 +71,10 @@ public class ResourceExtenderStatService implements IResourceExtenderStatService
     @Override
     public int getNbStats( ResourceExtenderHistoryFilter filter )
     {
-        return _statDAO.loadCountStats( filter, ExtendPlugin.getPlugin(  ) );
+        ResourceExtenderHistoryFilter filterCount = copyCriteria( filter );
+        filterCount.setGroupByAttributeName( filter.getGroupByAttributeName(  ) );
+
+        return _statDAO.loadCountStats( filterCount, ExtendPlugin.getPlugin(  ) );
     }
 
     /**
@@ -82,16 +83,30 @@ public class ResourceExtenderStatService implements IResourceExtenderStatService
     @Override
     public long getTotalNumbers( ResourceExtenderHistoryFilter filter )
     {
-        ResourceExtenderHistoryFilter filterTmp = filter;
+        return _statDAO.loadTotalNumbers( copyCriteria( filter ), ExtendPlugin.getPlugin(  ) );
+    }
 
-        // No GROUP BY
-        filterTmp.setGroupByAttributeName( StringUtils.EMPTY );
-        // No LIMIT OFFSET
-        filterTmp.setItemsPerPage( ResourceExtenderHistoryFilter.ALL );
-        filterTmp.setPageIndex( ResourceExtenderHistoryFilter.ALL );
-        // No ORDER BY
-        filterTmp.setSortedAttributeName( StringUtils.EMPTY );
+    /**
+     * Copies the search criteria of a filter into a new one, without grouping, sorting nor paging.
+     *
+     * @param filter the filter
+     * @return the new filter
+     */
+    private static ResourceExtenderHistoryFilter copyCriteria( ResourceExtenderHistoryFilter filter )
+    {
+        ResourceExtenderHistoryFilter filterCriteria = new ResourceExtenderHistoryFilter(  );
+        filterCriteria.setIdHistory( filter.getIdHistory(  ) );
+        filterCriteria.setExtenderType( filter.getExtenderType(  ) );
+        filterCriteria.setIdExtendableResource( filter.getIdExtendableResource(  ) );
+        filterCriteria.setExtendableResourceType( filter.getExtendableResourceType(  ) );
+        filterCriteria.setUserGuid( filter.getUserGuid(  ) );
+        filterCriteria.setIpAddress( filter.getIpAddress(  ) );
+        filterCriteria.setDateCreation( filter.getDateCreation(  ) );
+        filterCriteria.setOperatorDateCreation( filter.getOperatorDateCreation(  ) );
+        filterCriteria.setDateCreationBegin( filter.getDateCreationBegin(  ) );
+        filterCriteria.setDateCreationEnd( filter.getDateCreationEnd(  ) );
+        filterCriteria.setIsWideSearch( filter.isWideSearch(  ) );
 
-        return _statDAO.loadTotalNumbers( filterTmp, ExtendPlugin.getPlugin(  ) );
+        return filterCriteria;
     }
 }
