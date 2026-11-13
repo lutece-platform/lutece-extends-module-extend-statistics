@@ -54,19 +54,19 @@
 				<@tr>
 					<@th scope='col'>
 						#i18n{module.extend.statistics.view_stats.labelExtenderType}
-						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp?view=viewStats' attribute='extender_type' />
+						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp?view=viewStats' attribute='extender_type' columnLabel='#i18n{module.extend.statistics.view_stats.labelExtenderType}' />
 					</@th>
 					<@th scope='col'>
 						#i18n{module.extend.statistics.view_stats.labelIdExtendableResource}
-						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp?view=viewStats' attribute='id_resource' />
+						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp?view=viewStats' attribute='id_resource' columnLabel='#i18n{module.extend.statistics.view_stats.labelIdExtendableResource}' />
 					</@th>
 					<@th scope='col'>
 						#i18n{module.extend.statistics.view_stats.labelExtendableResourceType}
-						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp?view=viewStats' attribute='resource_type' />
+						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp?view=viewStats' attribute='resource_type' columnLabel='#i18n{module.extend.statistics.view_stats.labelExtendableResourceType}' />
 					</@th>
 					<@th scope='col'>
 						#i18n{module.extend.statistics.view_stats.labelNumber}
-						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp?view=viewStats' attribute='nb_histories' />
+						<@sort jsp_url='jsp/admin/plugins/extend/modules/statistics/ViewStats.jsp?view=viewStats' attribute='nb_histories' columnLabel='#i18n{module.extend.statistics.view_stats.labelNumber}' />
 					</@th>
 				</@tr>
 				<@tableHeadBodySeparator />
@@ -80,7 +80,7 @@
 				</#list>
 				<@tableFoot>
 				<@tr>
-					<@td colspan=3>#i18n{module.extend.statistics.view_stats.labelTotalNumbers}</@td>
+					<@th scope='row' colspan=3>#i18n{module.extend.statistics.view_stats.labelTotalNumbers}</@th>
 					<@td>${totalNumbers!}</@td>
 				</@tr>
 				</@tableFoot>
