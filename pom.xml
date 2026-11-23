@@ -10,7 +10,7 @@
     <groupId>fr.paris.lutece.plugins</groupId>
     <artifactId>module-extend-statistics</artifactId>
     <packaging>lutece-plugin</packaging>
-    <version>1.0.6-SNAPSHOT</version>
+    <version>1.0.7-SNAPSHOT</version>
     <name>Lutece Extend Statistics module</name>
 
     <repositories>
