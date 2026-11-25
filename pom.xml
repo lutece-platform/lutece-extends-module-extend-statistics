@@ -56,6 +56,17 @@
             <artifactId>jaxb-runtime</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- MVC controllers in unit tests: Jakarta Bean Validation provider and the EL implementation it needs -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.expressly</groupId>
+            <artifactId>expressly</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 	
     <scm>

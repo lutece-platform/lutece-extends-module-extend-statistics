@@ -171,6 +171,8 @@ public class StatisticsJspBean extends MVCAdminJspBean
         populate( _filter, request );
         _filter.setDateCreationBegin( toFilterDate( _filter.getDateCreationBegin(  ) ) );
         _filter.setDateCreationEnd( toFilterDate( _filter.getDateCreationEnd(  ) ) );
+        // a new search opens on the first page of its results
+        _strCurrentPageIndex = null;
 
         return buildStatsPage( model, request );
     }
